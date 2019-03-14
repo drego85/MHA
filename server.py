@@ -25,11 +25,7 @@ reader = geoip2.database.Reader(
 @app.context_processor
 def utility_processor():
     def getCountryForIP(line):
-        ipv4_address = re.compile(r"""
-            \b((?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\.
-            (?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\.
-            (?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\.
-            (?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d))\b""", re.X)
+        ipv4_address = re.compile(r"""\b:^|\b(?<!\.))(?:1?\d?\d|2[0-4]\d|25[0-5])(?:\.(?:1?\d?\d|2[0-4]\d|25[0-5])){3}(?=$|[^\w.])\b""", re.X)
         ip = ipv4_address.findall(line)
         if ip:
             ip = ip[0]  # take the 1st ip and ignore the rest
